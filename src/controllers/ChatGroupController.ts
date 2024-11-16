@@ -89,8 +89,8 @@ class ChatGroupController {
 
             await prisma.chatGroup.create({
                 data : {
-                    title : body.title,
-                    passcode : body.passcode,
+                    title : body?.title,
+                    passcode : body?.passcode,
                     user_id : user.id
                 }
             })
