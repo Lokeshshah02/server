@@ -1,4 +1,5 @@
 import { Server ,Socket } from "socket.io";
+import prisma from "./config/db.config.js";
 
 interface CustomSocket extends Socket{
     room?:string
@@ -23,11 +24,20 @@ export function setupSocket( io : Server){
 
         console.log("The socket connect..",socket.id);
 
-        socket.on("message",(data)=>{
+        socket.on("message", async (data)=>{
             console.log("Server side message", data);
             // socket.broadcast.emit("message", data) 
            // for room
-           io.to(socket.room).emit("message", data);   
+
+        // on ui below code was printing twice it wasnt unique , the message used to go to all
+        //    io.to(socket.room).emit("message", data);   
+
+        // below code is only to the connected user and storing them to Database
+        await prisma.chats.create({
+            data : data
+        })
+        socket.to(socket.room).emit("message", data);
+        
         })
         
         socket.on("disconnect", () =>{

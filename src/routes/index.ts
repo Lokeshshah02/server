@@ -3,6 +3,7 @@ import AuthController from "../controllers/AuthController.js";
 import authMiddleware from "../middleware/AuthMiddleWare.js";
 import ChatGroupController from "../controllers/ChatGroupController.js";
 import ChatGroupUserController from "../controllers/ChatGroupUserController.js";
+import ChatsController from "../controllers/ChatsController.js";
 const router = Router()
 
 //Auth Routes
@@ -18,5 +19,8 @@ router.delete("/chat-group/:id", authMiddleware, ChatGroupController.delete)
 // Chat group users
 router.get("/chat-group-user", ChatGroupUserController.index)
 router.post("/chat-group-user", ChatGroupUserController.store)
+
+// Chats messages
+router.get("/chats/:groupId", ChatsController.index)
 
 export default router
